@@ -1,4 +1,4 @@
-podTemplate(label: 'pod-hugo-app', containers: [
+podTemplate(label: 'pod-hugo-app', serviceAccount: 'drone-deploy', containers: [
     containerTemplate(name: 'hugo', image: 'smesch/hugo', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'html-proofer', image: 'smesch/html-proofer', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'kubectl', image: 'smesch/kubectl', ttyEnabled: true, command: 'cat',
@@ -17,18 +17,6 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
         stage('Clone Hugo App Repository') {
             checkout scm
- 
-            container('hugo') {
-                stage('Build Hugo Site') {
-                    sh ("hugo --uglyURLs")
-                }
-            }
-    
-            container('html-proofer') {
-                stage('Validate HTML') {
-                    sh ("htmlproofer public --internal-domains ${env.JOB_NAME} --external_only --only-4xx")
-                }
-            }
 
             container('docker') {
                 stage('Docker Build & Push Current & Latest Versions') {
@@ -41,7 +29,7 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
             container('kubectl') {
                 stage('Deploy New Build To Kubernetes') {
-                    sh ("kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    sh ("kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} -n default")
                 }
             }
 
