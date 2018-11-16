@@ -20,6 +20,7 @@ podTemplate(label: 'pod-hugo-app', containers: [
             
             container('hugo') {
                 stage('Build Hugo Site') {
+                    sh ("mkdir public")
                     sh ("hugo --uglyURLs")
                 }
             }
