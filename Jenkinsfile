@@ -17,19 +17,6 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
         stage('Clone Hugo App Repository') {
             checkout scm
-            
-            container('hugo') {
-                stage('Build Hugo Site') {
-                    sh ("mkdir public")
-                    sh ("hugo --uglyURLs")
-                }
-            }
-    
-            container('html-proofer') {
-                stage('Validate HTML') {
-                    sh ("htmlproofer public --internal-domains ${env.JOB_NAME} --external_only --only-4xx")
-                }
-            }
 
             container('docker') {
                 stage('Docker Build & Push Current & Latest Versions') {
