@@ -1,4 +1,4 @@
-podTemplate(label: 'pod-hugo-app', containers: [
+podTemplate(label: 'pod-hugo-app', serviceAccout: 'drone-deploy', containers: [
     containerTemplate(name: 'hugo', image: 'smesch/hugo', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'html-proofer', image: 'smesch/html-proofer', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'kubectl', image: 'smesch/kubectl', ttyEnabled: true, command: 'cat',
