@@ -1,8 +1,8 @@
-podTemplate(label: 'pod-hugo-app', serviceAccout: 'drone-deploy', containers: [
+podTemplate(label: 'pod-hugo-app', serviceAccount: 'drone-deploy', containers: [
     containerTemplate(name: 'hugo', image: 'smesch/hugo', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'html-proofer', image: 'smesch/html-proofer', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'kubectl', image: 'smesch/kubectl', ttyEnabled: true, command: 'cat',
-     //   volumes: [secretVolume(secretName: 'kube-config', mountPath: '/root/.kube')]),
+        volumes: [secretVolume(secretName: 'kube-config', mountPath: '/root/.kube')]),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat',
         envVars: [containerEnvVar(key: 'DOCKER_CONFIG', value: '/tmp/'),])],
         volumes: [secretVolume(secretName: 'docker-config', mountPath: '/tmp'),
