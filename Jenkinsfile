@@ -29,7 +29,7 @@ podTemplate(label: 'pod-hugo-app', serviceAccount: 'drone-deploy', containers: [
 
             container('kubectl') {
                 stage('Deploy New Build To Kubernetes') {
-                    sh ("kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} -n default")
+                    sh ("kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER} -n default; kubectl rollout deployment/${K8S_DEPLOYMENT_NAME}")
                 }
             }
 
