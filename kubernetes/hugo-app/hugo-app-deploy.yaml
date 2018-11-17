@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: hugo-app
 spec:
+  minReadySeconds: 20
   replicas: 5
   template:
     metadata:
