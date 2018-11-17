@@ -13,4 +13,4 @@ spec:
         - name: hugo-app
           image: smesch/hugo-app:1.0
           ports:
-            - containerPort: 80
+            - containerPort: 8080
